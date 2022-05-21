@@ -8,6 +8,10 @@
 
 from vyper.interfaces import ERC20
 
+struct VestingInfo:
+    contract: address
+    funder: address
+    recipient: address
 
 interface VestingEscrowSimple:
     def initialize(
@@ -33,6 +37,8 @@ event VestingEscrowCreated:
 
 
 target: public(address)
+contractCount: public(uint256)
+contracts: public(HashMap[uint256, VestingInfo])
 
 @external
 def __init__(target: address):
@@ -43,6 +49,7 @@ def __init__(target: address):
     @param target `VestingEscrowSimple` contract address
     """
     self.target = target
+    self.contractCount = 0
 
 
 @external
@@ -75,5 +82,9 @@ def deploy_vesting_contract(
         vesting_start + vesting_duration,
         cliff_length,
     )
+
+    self.contractCount += 1
+    self.contracts[self.contractCount] = VestingInfo({contract: escrow, funder: msg.sender, recipient: recipient})
+
     log VestingEscrowCreated(msg.sender, token, recipient, escrow, amount, vesting_start, vesting_duration, cliff_length)
     return escrow
