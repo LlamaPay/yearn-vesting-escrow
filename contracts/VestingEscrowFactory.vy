@@ -83,8 +83,8 @@ def deploy_vesting_contract(
         cliff_length,
     )
 
-    self.contractCount += 1
     self.contracts[self.contractCount] = VestingInfo({contract: escrow, funder: msg.sender, recipient: recipient})
+    self.contractCount += 1
 
     log VestingEscrowCreated(msg.sender, token, recipient, escrow, amount, vesting_start, vesting_duration, cliff_length)
     return escrow
