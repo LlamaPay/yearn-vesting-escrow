@@ -37,7 +37,7 @@ event VestingEscrowCreated:
 
 
 target: public(address)
-contractCount: public(uint256)
+contract_count: public(uint256)
 contracts: public(HashMap[uint256, VestingInfo])
 
 @external
@@ -49,7 +49,7 @@ def __init__(target: address):
     @param target `VestingEscrowSimple` contract address
     """
     self.target = target
-    self.contractCount = 0
+    self.contract_count = 0
 
 
 @external
@@ -83,8 +83,8 @@ def deploy_vesting_contract(
         cliff_length,
     )
 
-    self.contracts[self.contractCount] = VestingInfo({contract: escrow, funder: msg.sender, recipient: recipient})
-    self.contractCount += 1
+    self.contracts[self.contract_count] = VestingInfo({contract: escrow, funder: msg.sender, recipient: recipient})
+    self.contract_count += 1
 
     log VestingEscrowCreated(msg.sender, token, recipient, escrow, amount, vesting_start, vesting_duration, cliff_length)
     return escrow
