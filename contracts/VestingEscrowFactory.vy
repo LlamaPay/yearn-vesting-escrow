@@ -84,3 +84,8 @@ def deploy_vesting_contract(
 
     log VestingEscrowCreated(msg.sender, token, recipient, escrow, amount, vesting_start, vesting_duration, cliff_length)
     return escrow
+
+@view 
+@external
+def contract_by_address(user: address) -> DynArray[address, 1000000]:
+    return self.contracts[user]
