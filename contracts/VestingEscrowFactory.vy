@@ -1,4 +1,4 @@
-# @version 0.2.16
+# @version 0.3.3
 """
 @title Vesting Escrow Factory
 @author Curve Finance, Yearn Finance
@@ -7,11 +7,6 @@
 """
 
 from vyper.interfaces import ERC20
-
-struct VestingInfo:
-    contract: address
-    funder: address
-    recipient: address
 
 interface VestingEscrowSimple:
     def initialize(
@@ -38,7 +33,7 @@ event VestingEscrowCreated:
 
 target: public(address)
 contract_count: public(uint256)
-contracts: public(HashMap[uint256, VestingInfo])
+contracts: public(HashMap[address, DynArray[address, 1000000]])
 
 @external
 def __init__(target: address):
@@ -83,8 +78,9 @@ def deploy_vesting_contract(
         cliff_length,
     )
 
-    self.contracts[self.contract_count] = VestingInfo({contract: escrow, funder: msg.sender, recipient: recipient})
     self.contract_count += 1
+    self.contracts[msg.sender].append(escrow)
+    self.contracts[recipient].append(escrow)
 
     log VestingEscrowCreated(msg.sender, token, recipient, escrow, amount, vesting_start, vesting_duration, cliff_length)
     return escrow
