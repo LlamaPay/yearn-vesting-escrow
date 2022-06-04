@@ -46,6 +46,7 @@ def __init__(target: address):
     """
     self.target = target
 
+
 @external
 def deploy_vesting_contract(
     token: address,
