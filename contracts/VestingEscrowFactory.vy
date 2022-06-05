@@ -65,6 +65,7 @@ def deploy_vesting_contract(
     @param vesting_start Epoch time when tokens begin to vest
     """
     assert cliff_length <= vesting_duration  # dev: incorrect vesting cliff
+    assert vesting_duration > 0  # dev: duration must be > 0
     escrow: address = create_forwarder_to(self.target)
     assert ERC20(token).transferFrom(msg.sender, self, amount)  # dev: funding failed
     assert ERC20(token).approve(escrow, amount)  # dev: approve failed
