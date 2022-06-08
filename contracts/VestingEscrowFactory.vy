@@ -33,7 +33,7 @@ event VestingEscrowCreated:
 
 
 target: public(address)
-escrows: public(HashMap[uint256, address])
+escrows: public(address[1000000000])
 escrows_length: public(uint256)
 
 @external
