@@ -1,4 +1,5 @@
 # @version 0.3.10
+#pragma evm-version paris
 
 """
 @title Vesting Escrow Factory
@@ -63,7 +64,7 @@ def deploy_vesting_contract(
     vesting_start: uint256 = block.timestamp,
     cliff_length: uint256 = 0,
     open_claim: bool = True,
-    support_vyper: uint256 = 100,
+    support_vyper: uint256 = 0,
     owner: address = msg.sender,
 ) -> address:
     """
@@ -76,7 +77,7 @@ def deploy_vesting_contract(
     @param vesting_duration Time period (in seconds) over which tokens are released
     @param vesting_start Epoch time when tokens begin to vest
     @param open_claim Switch if anyone can claim for `recipient`
-    @param support_vyper Donation percentage in bps, 1% by default
+    @param support_vyper Donation percentage in bps, 0% by default
     @param owner Vesting contract owner
     """
     assert cliff_length <= vesting_duration  # dev: incorrect vesting cliff
