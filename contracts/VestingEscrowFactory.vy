@@ -37,6 +37,8 @@ event VestingEscrowCreated:
 
 TARGET: public(immutable(address))
 VYPER: public(immutable(address))
+escrows_length: public(uint256)
+escrows: public(address[1000000000000])
 
 
 @external
@@ -105,6 +107,8 @@ def deploy_vesting_contract(
             default_return_value=True
         )  # dev: donation failed
 
+    self.escrows[self.escrows_length] = escrow
+    self.escrows_length += 1
     log VestingEscrowCreated(
         msg.sender,
         token,
